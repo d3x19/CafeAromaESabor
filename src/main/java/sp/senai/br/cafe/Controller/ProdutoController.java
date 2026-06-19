@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sp.senai.br.cafe.Model.Produto;
 import sp.senai.br.cafe.Repository.ProdutoRepository;
 
@@ -26,7 +28,7 @@ public final class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public String listarProdutos(Model model, @org.springframework.web.bind.annotation.RequestParam(required = false) String q) {
+    public String listarProdutos(Model model, @RequestParam(required = false) String q) {
         if (q != null && !q.isBlank()) {
             model.addAttribute("produtos", produtoRepository.findByNomeContainingIgnoreCase(q));
             model.addAttribute("q", q);
@@ -42,8 +44,13 @@ public final class ProdutoController {
     }
 
     @PostMapping(ROTA_CADASTRAR)
-    public String processarFormularioCadastro(Produto produto) {
-        produtoRepository.save(produto);
+    public String processarFormularioCadastro(Produto produto, RedirectAttributes attr) {
+        try {
+            produtoRepository.save(produto);
+            attr.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
+        } catch (Exception e) {
+            attr.addFlashAttribute("erro", "Erro ao cadastrar produto: " + e.getMessage());
+        }
         return "redirect:" + ROTA_PRODUTO;
     }
 
@@ -55,18 +62,28 @@ public final class ProdutoController {
     }
 
     @PostMapping("/alterar/{id}")
-    public String processarFormularioAlterar(@PathVariable Long id, Produto produto) {
-        Produto existente = produtoRepository.findById(id).orElseThrow();
-        existente.setNome(produto.getNome());
-        existente.setPreco(produto.getPreco());
-        existente.setQuantidade(produto.getQuantidade());
-        produtoRepository.save(existente);
+    public String processarFormularioAlterar(@PathVariable Long id, Produto produto, RedirectAttributes attr) {
+        try {
+            Produto existente = produtoRepository.findById(id).orElseThrow();
+            existente.setNome(produto.getNome());
+            existente.setPreco(produto.getPreco());
+            existente.setQuantidade(produto.getQuantidade());
+            produtoRepository.save(existente);
+            attr.addFlashAttribute("sucesso", "Produto alterado com sucesso!");
+        } catch (Exception e) {
+            attr.addFlashAttribute("erro", "Erro ao alterar produto: " + e.getMessage());
+        }
         return "redirect:" + ROTA_PRODUTO;
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirProduto(@PathVariable Long id) {
-        produtoRepository.deleteById(id);
+    public String excluirProduto(@PathVariable Long id, RedirectAttributes attr) {
+        try {
+            produtoRepository.deleteById(id);
+            attr.addFlashAttribute("sucesso", "Produto excluído com sucesso!");
+        } catch (Exception e) {
+            attr.addFlashAttribute("erro", "Erro ao excluir produto: " + e.getMessage());
+        }
         return "redirect:" + ROTA_PRODUTO;
     }
 }

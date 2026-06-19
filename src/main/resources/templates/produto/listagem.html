@@ -94,6 +94,10 @@
         </form>
         <a class="btn-cadastrar" th:href="@{/produto/cadastrar}">+ Novo Produto</a>
     </div>
+
+    <div th:if="${sucesso}" style="padding:12px 16px;background:#e8f5e9;color:#2e7d32;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:500;" th:text="${sucesso}">sucesso</div>
+    <div th:if="${erro}" style="padding:12px 16px;background:#ffebee;color:#c62828;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:500;" th:text="${erro}">erro</div>
+
     <div class="table-wrapper">
         <table>
             <thead>
