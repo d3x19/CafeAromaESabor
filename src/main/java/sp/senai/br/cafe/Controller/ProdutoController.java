@@ -26,8 +26,13 @@ public final class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public String listarProdutos(Model model) {
-        model.addAttribute("produtos", produtoRepository.findAll());
+    public String listarProdutos(Model model, @org.springframework.web.bind.annotation.RequestParam(required = false) String q) {
+        if (q != null && !q.isBlank()) {
+            model.addAttribute("produtos", produtoRepository.findByNomeContainingIgnoreCase(q));
+            model.addAttribute("q", q);
+        } else {
+            model.addAttribute("produtos", produtoRepository.findAll());
+        }
         return VIEW_LISTAGEM;
     }
 

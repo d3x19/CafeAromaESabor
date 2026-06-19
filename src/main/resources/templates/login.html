@@ -4,35 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Aroma & Sabor - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #6f4e37, #3e2723); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); width: 100%; max-width: 400px; }
-        h1 { color: #3e2723; text-align: center; margin-bottom: 8px; font-size: 24px; }
-        .subtitle { text-align: center; color: #8d6e63; margin-bottom: 32px; font-size: 14px; }
-        .campo { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 6px; color: #4e342e; font-weight: 600; font-size: 14px; }
-        input { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 14px; }
-        input:focus { outline: none; border-color: #6f4e37; box-shadow: 0 0 0 2px rgba(111,78,55,0.2); }
-        button { width: 100%; padding: 12px; background: #6f4e37; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
-        button:hover { background: #4e342e; }
-        .footer { text-align: center; margin-top: 24px; color: #8d6e63; font-size: 13px; }
+        :root {
+            --primary: #4a3228;
+            --primary-light: #6b4c3b;
+            --accent: #c8854f;
+            --text: #2d1f18;
+            --text-secondary: #8c7a71;
+            --border: #e8e0d9;
+            --error: #c62828;
+            --success: #2e7d32;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f7f3ef 0%, #e8ddd4 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { background: #fff; padding: 40px; border-radius: var(--radius); box-shadow: 0 8px 40px rgba(74, 50, 40, 0.2); width: 100%; max-width: 400px; animation: fadeUp 0.5s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .logo { text-align: center; margin-bottom: 8px; font-size: 36px; }
+        h1 { color: var(--primary); text-align: center; font-size: 22px; font-weight: 800; }
+        .subtitle { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 28px; }
+        .msg { padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 16px; }
+        .msg-error { background: #ffebee; color: var(--error); }
+        .msg-success { background: #e8f5e9; color: var(--success); }
+        .campo { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; color: var(--primary); font-weight: 600; font-size: 13px; }
+        input { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200, 133, 79, 0.15); }
+        button { width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; font-family: inherit; }
+        button:hover { background: #b3733e; }
+        button:active { transform: scale(0.98); }
+        .footer { text-align: center; margin-top: 24px; color: var(--text-secondary); font-size: 12px; }
+        .users-ref { margin-top: 20px; padding: 14px; background: var(--bg, #f7f3ef); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); text-align: center; line-height: 1.6; }
+        .users-ref code { background: #e8e0d9; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+
+        @media (max-width: 400px) {
+            .container { padding: 24px; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="logo">☕</div>
     <h1>Café Aroma & Sabor</h1>
-    <p class="subtitle">Faça login para continuar</p>
-    <div th:if="${param.error}" style="color: #c62828; text-align: center; margin-bottom: 16px; font-size: 14px;">
-        Usuário ou senha inválidos.
+    <p class="subtitle">Faça login para acessar o sistema</p>
+
+    <div th:if="${param.error}" class="msg msg-error">
+        Usuário ou senha inválidos. Tente novamente.
     </div>
-    <div th:if="${param.logout}" style="color: #2e7d32; text-align: center; margin-bottom: 16px; font-size: 14px;">
-        Você saiu do sistema.
+    <div th:if="${param.logout}" class="msg msg-success">
+        Você saiu do sistema com sucesso.
     </div>
-    <form action="#" th:action="@{/login}" method="post">
+
+    <form th:action="@{/login}" method="post">
         <div class="campo">
             <label for="username">Usuário</label>
-            <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário" autofocus required>
         </div>
         <div class="campo">
             <label for="password">Senha</label>
@@ -40,7 +69,13 @@
         </div>
         <button type="submit">Entrar</button>
     </form>
-    <p class="footer">Sistema de Gerenciamento</p>
+
+    <div class="users-ref">
+        🔑 <strong>Usuários do sistema:</strong><br>
+        <code>admin</code> / <code>admin123</code> &nbsp;·&nbsp; <code>user</code> / <code>user123</code>
+    </div>
+
+    <p class="footer">Sistema de Gerenciamento — Café Aroma & Sabor</p>
 </div>
 </body>
 </html>

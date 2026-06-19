@@ -5,79 +5,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Aroma & Sabor - Produtos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #f5f0eb; }
-        header { background: #3e2723; color: #fff; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
-        header h1 { font-size: 22px; }
-        nav { display: flex; gap: 20px; }
-        nav a { color: #d7ccc8; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: #fff; }
-        main { max-width: 960px; margin: 40px auto; padding: 0 20px; }
-        .topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-        .topo h2 { color: #3e2723; font-size: 24px; }
-        .btn-cadastrar { padding: 10px 20px; background: #6f4e37; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.3s; }
-        .btn-cadastrar:hover { background: #4e342e; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-        th, td { padding: 14px 16px; text-align: left; }
-        th { background: #6f4e37; color: #fff; font-weight: 600; }
-        tr:nth-child(even) { background: #f5f0eb; }
-        .vazio { text-align: center; padding: 40px; color: #8d6e63; font-size: 16px; }
-        .btn-alterar { padding: 6px 14px; background: #ff8f00; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; }
-        .btn-alterar:hover { background: #ff6f00; }
-        .btn-excluir { padding: 6px 14px; background: #c62828; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; margin-left: 6px; }
-        .btn-excluir:hover { background: #b71c1c; }
+        :root {
+            --bg: #f7f3ef; --surface: #ffffff; --primary: #4a3228; --primary-light: #6b4c3b;
+            --accent: #c8854f; --accent-hover: #b3733e; --text: #2d1f18; --text-secondary: #8c7a71;
+            --border: #e8e0d9; --success: #2e7d32; --error: #c62828; --shadow: 0 2px 12px rgba(74,50,40,0.08);
+            --shadow-hover: 0 6px 24px rgba(74,50,40,0.14); --radius: 12px; --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+        a { color: inherit; text-decoration: none; }
+
+        header { background: var(--primary); color: #fff; padding: 0 32px; height: 68px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.15); }
+        header .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        header .logo span { color: var(--accent); }
+        .header-right { display: flex; align-items: center; gap: 24px; }
+        .user-info { font-size: 14px; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 8px; }
+        .user-info strong { color: #fff; font-weight: 600; }
+        nav { display: flex; gap: 4px; }
+        nav a, nav form button { padding: 8px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); transition: all 0.2s; background: none; border: none; cursor: pointer; font-family: inherit; }
+        nav a:hover, nav form button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        nav a.active { background: rgba(255,255,255,0.15); color: #fff; font-weight: 600; }
+
+        main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 32px 24px; width: 100%; }
+        .topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .topo h2 { color: var(--text); font-size: 22px; font-weight: 700; }
+
+        .search-bar { display: flex; gap: 8px; flex: 1; max-width: 360px; }
+        .search-bar input { flex: 1; padding: 10px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .search-bar input:focus { outline: none; border-color: var(--accent); }
+        .search-bar button { padding: 10px 16px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; font-family: inherit; }
+        .search-bar button:hover { background: var(--accent-hover); }
+        .btn-cadastrar { padding: 10px 20px; background: var(--primary); color: #fff; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; transition: background 0.2s; white-space: nowrap; }
+        .btn-cadastrar:hover { background: var(--primary-light); }
+
+        .table-wrapper { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: var(--primary); color: #fff; padding: 14px 16px; text-align: left; font-weight: 600; font-size: 13px; letter-spacing: 0.3px; }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(200, 133, 79, 0.04); }
+        .vazio { text-align: center; padding: 48px 16px; color: var(--text-secondary); font-size: 14px; }
+        .vazio strong { display: block; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+
+        .btn-alterar, .btn-excluir { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; transition: all 0.2s; }
+        .btn-alterar { background: #fff3e0; color: #e65100; }
+        .btn-alterar:hover { background: #ffe0b2; }
+        .btn-excluir { background: #ffebee; color: #c62828; margin-left: 4px; }
+        .btn-excluir:hover { background: #ffcdd2; }
+
+        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 16px 24px; font-size: 13px; margin-top: auto; }
+        footer strong { color: rgba(255,255,255,0.85); }
+
+        @media (max-width: 700px) {
+            header { padding: 0 16px; flex-wrap: wrap; height: auto; gap: 8px; padding-top: 12px; padding-bottom: 12px; }
+            nav { flex-wrap: wrap; }
+            .topo { flex-direction: column; align-items: stretch; }
+            .search-bar { max-width: 100%; }
+            table { font-size: 13px; }
+            th, td { padding: 10px 12px; }
+            .btn-alterar, .btn-excluir { padding: 4px 10px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
 <header>
-    <h1>Café Aroma & Sabor</h1>
-    <div style="display:flex;align-items:center;gap:20px;">
-        <span style="color:#d7ccc8;font-size:14px;">
-            <span sec:authentication="name">usuário</span>
-        </span>
-        <nav style="display:flex;gap:20px;">
+    <div class="logo">☕ Café <span>Aroma & Sabor</span></div>
+    <div class="header-right">
+        <div class="user-info">👤 <strong sec:authentication="name">usuário</strong></div>
+        <nav>
             <a th:href="@{/home}">Home</a>
-            <a th:href="@{/produto}">Produtos</a>
+            <a href="#" class="active">Produtos</a>
             <a th:href="@{/estoque}">Estoque</a>
-            <form th:action="@{/logout}" method="post" style="display:inline;">
-                <button type="submit" style="background:none;color:#d7ccc8;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;">Sair</button>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">🚪 Sair</button>
             </form>
         </nav>
     </div>
 </header>
 <main>
     <div class="topo">
-        <h2>Listagem de Produtos</h2>
-        <a class="btn-cadastrar" th:href="@{/produto/cadastrar}">+ Cadastrar</a>
+        <h2>📋 Produtos</h2>
+        <form class="search-bar" th:action="@{/produto}" method="get">
+            <input type="text" name="q" placeholder="Buscar produto..." th:value="${q}">
+            <button type="submit">Buscar</button>
+        </form>
+        <a class="btn-cadastrar" th:href="@{/produto/cadastrar}">+ Novo Produto</a>
     </div>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Quantidade</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="produto : ${produtos}">
-            <td th:text="${produto.id}">1</td>
-            <td th:text="${produto.nome}">Produto Exemplo</td>
-            <td th:text="${produto.preco}">0.00</td>
-            <td th:text="${produto.quantidade}">0</td>
-            <td>
-                <a class="btn-alterar" th:href="@{/produto/alterar/{id}(id=${produto.id})}">Alterar</a>
-                <a class="btn-excluir" th:href="@{/produto/excluir/{id}(id=${produto.id})}"
-                   onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(produtos)}">
-            <td colspan="5" class="vazio">Nenhum produto cadastrado</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Qtd.</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="produto : ${produtos}">
+                <td><span style="color:var(--text-secondary);font-weight:500;" th:text="${produto.id}">1</span></td>
+                <td><strong th:text="${produto.nome}">Produto Exemplo</strong></td>
+                <td>R$ <span th:text="${#numbers.formatDecimal(produto.preco, 0, 'COMMA', 2, 'POINT')}">0,00</span></td>
+                <td><span th:text="${produto.quantidade}">0</span></td>
+                <td>
+                    <a class="btn-alterar" th:href="@{/produto/alterar/{id}(id=${produto.id})}">✎ Alterar</a>
+                    <a class="btn-excluir" th:href="@{/produto/excluir/{id}(id=${produto.id})}"
+                       onclick="return confirm('Tem certeza que deseja excluir o produto «${produto.nome}»?')">✕ Excluir</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(produtos)}">
+                <td colspan="5" class="vazio">
+                    <strong>🔍 Nenhum produto encontrado</strong>
+                    <span th:if="${q != null}">Nenhum resultado para "<span th:text="${q}"></span>"</span>
+                    <span th:unless="${q != null}">Cadastre um produto para começar</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
+<footer>
+    © 2026 <strong>Café Aroma & Sabor</strong> — Sistema de Gerenciamento
+</footer>
 </body>
 </html>

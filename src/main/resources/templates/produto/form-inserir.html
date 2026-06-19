@@ -5,56 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Aroma & Sabor - Cadastrar Produto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #f5f0eb; }
-        header { background: #3e2723; color: #fff; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
-        header h1 { font-size: 22px; }
-        nav { display: flex; gap: 20px; }
-        nav a { color: #d7ccc8; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: #fff; }
-        main { max-width: 540px; margin: 40px auto; padding: 0 20px; }
-        .card { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-        h2 { color: #3e2723; margin-bottom: 24px; font-size: 22px; text-align: center; }
+        :root {
+            --bg: #f7f3ef; --surface: #ffffff; --primary: #4a3228; --primary-light: #6b4c3b;
+            --accent: #c8854f; --accent-hover: #b3733e; --text: #2d1f18; --text-secondary: #8c7a71;
+            --border: #e8e0d9; --shadow: 0 2px 12px rgba(74,50,40,0.08);
+            --radius: 12px; --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+        a { color: inherit; text-decoration: none; }
+
+        header { background: var(--primary); color: #fff; padding: 0 32px; height: 68px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.15); }
+        header .logo { font-size: 20px; font-weight: 800; }
+        header .logo span { color: var(--accent); }
+        .header-right { display: flex; align-items: center; gap: 24px; }
+        .user-info { font-size: 14px; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 8px; }
+        .user-info strong { color: #fff; font-weight: 600; }
+        nav { display: flex; gap: 4px; }
+        nav a, nav form button { padding: 8px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); transition: all 0.2s; background: none; border: none; cursor: pointer; font-family: inherit; }
+        nav a:hover, nav form button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px 24px; }
+        .card { background: var(--surface); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); border: 1px solid var(--border); width: 100%; max-width: 480px; animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+        .card-header .icon { width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .card-header h2 { font-size: 20px; font-weight: 700; }
+        .card-header p { font-size: 13px; color: var(--text-secondary); }
         .campo { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; color: #4e342e; font-weight: 600; font-size: 14px; }
-        input { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 14px; }
-        input:focus { outline: none; border-color: #6f4e37; box-shadow: 0 0 0 2px rgba(111,78,55,0.2); }
-        .acoes { display: flex; gap: 12px; margin-top: 24px; }
-        .acoes a { flex: 1; padding: 12px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; transition: background 0.3s; }
-        .btn-voltar { background: #d7ccc8; color: #3e2723; }
-        .btn-voltar:hover { background: #bcaaa4; }
-        .acoes button { flex: 1; padding: 12px; background: #6f4e37; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
-        .acoes button:hover { background: #4e342e; }
+        label { display: block; margin-bottom: 6px; color: var(--primary); font-weight: 600; font-size: 13px; }
+        input { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,133,79,0.12); }
+        .acoes { display: flex; gap: 10px; margin-top: 28px; }
+        .acoes a, .acoes button { flex: 1; padding: 12px; text-align: center; border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; transition: all 0.2s; }
+        .btn-voltar { background: var(--bg); color: var(--text); }
+        .btn-voltar:hover { background: var(--border); }
+        .acoes button { background: var(--accent); color: #fff; border: none; cursor: pointer; font-family: inherit; }
+        .acoes button:hover { background: var(--accent-hover); }
+
+        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 16px 24px; font-size: 13px; }
+        footer strong { color: rgba(255,255,255,0.85); }
+
+        @media (max-width: 600px) {
+            header { padding: 0 16px; flex-wrap: wrap; height: auto; gap: 8px; padding-top: 12px; padding-bottom: 12px; }
+            nav { flex-wrap: wrap; }
+            .card { padding: 24px; }
+        }
     </style>
 </head>
 <body>
 <header>
-    <h1>Café Aroma & Sabor</h1>
-    <div style="display:flex;align-items:center;gap:20px;">
-        <span style="color:#d7ccc8;font-size:14px;">
-            <span sec:authentication="name">usuário</span>
-        </span>
-        <nav style="display:flex;gap:20px;">
+    <div class="logo">☕ Café <span>Aroma & Sabor</span></div>
+    <div class="header-right">
+        <div class="user-info">👤 <strong sec:authentication="name">usuário</strong></div>
+        <nav>
             <a th:href="@{/home}">Home</a>
             <a th:href="@{/produto}">Produtos</a>
             <a th:href="@{/estoque}">Estoque</a>
-            <form th:action="@{/logout}" method="post" style="display:inline;">
-                <button type="submit" style="background:none;color:#d7ccc8;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;">Sair</button>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">🚪 Sair</button>
             </form>
         </nav>
     </div>
 </header>
 <main>
     <div class="card">
-        <h2>Cadastrar Produto</h2>
-        <form action="#" th:action="@{/produto/cadastrar}" method="post">
+        <div class="card-header">
+            <div class="icon">➕</div>
+            <div>
+                <h2>Cadastrar Produto</h2>
+                <p>Preencha os dados do novo produto</p>
+            </div>
+        </div>
+        <form th:action="@{/produto/cadastrar}" method="post">
             <div class="campo">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" placeholder="Nome do produto" required>
+                <input type="text" id="nome" name="nome" placeholder="Ex: Café Gourmet" required>
             </div>
             <div class="campo">
-                <label for="preco">Preço</label>
+                <label for="preco">Preço (R$)</label>
                 <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0,00" required>
             </div>
             <div class="campo">
@@ -62,11 +94,14 @@
                 <input type="number" id="quantidade" name="quantidade" min="0" placeholder="0" required>
             </div>
             <div class="acoes">
-                <a class="btn-voltar" th:href="@{/produto}">Voltar</a>
-                <button type="submit">Salvar</button>
+                <a class="btn-voltar" th:href="@{/produto}">← Voltar</a>
+                <button type="submit">💾 Salvar</button>
             </div>
         </form>
     </div>
 </main>
+<footer>
+    © 2026 <strong>Café Aroma & Sabor</strong> — Sistema de Gerenciamento
+</footer>
 </body>
 </html>
