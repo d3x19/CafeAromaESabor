@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Aroma & Sabor - Produtos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f5f0eb; }
+        header { background: #3e2723; color: #fff; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
+        header h1 { font-size: 22px; }
+        nav { display: flex; gap: 20px; }
+        nav a { color: #d7ccc8; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #fff; }
+        main { max-width: 960px; margin: 40px auto; padding: 0 20px; }
+        .topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .topo h2 { color: #3e2723; font-size: 24px; }
+        .btn-cadastrar { padding: 10px 20px; background: #6f4e37; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.3s; }
+        .btn-cadastrar:hover { background: #4e342e; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        th, td { padding: 14px 16px; text-align: left; }
+        th { background: #6f4e37; color: #fff; font-weight: 600; }
+        tr:nth-child(even) { background: #f5f0eb; }
+        .vazio { text-align: center; padding: 40px; color: #8d6e63; font-size: 16px; }
+        .btn-alterar { padding: 6px 14px; background: #ff8f00; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; }
+        .btn-alterar:hover { background: #ff6f00; }
+        .btn-excluir { padding: 6px 14px; background: #c62828; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; margin-left: 6px; }
+        .btn-excluir:hover { background: #b71c1c; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Café Aroma & Sabor</h1>
+    <div style="display:flex;align-items:center;gap:20px;">
+        <span style="color:#d7ccc8;font-size:14px;">
+            <span sec:authentication="name">usuário</span>
+        </span>
+        <nav style="display:flex;gap:20px;">
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/produto}">Produtos</a>
+            <a th:href="@{/estoque}">Estoque</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="background:none;color:#d7ccc8;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;">Sair</button>
+            </form>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="topo">
+        <h2>Listagem de Produtos</h2>
+        <a class="btn-cadastrar" th:href="@{/produto/cadastrar}">+ Cadastrar</a>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="produto : ${produtos}">
+            <td th:text="${produto.id}">1</td>
+            <td th:text="${produto.nome}">Produto Exemplo</td>
+            <td th:text="${produto.preco}">0.00</td>
+            <td th:text="${produto.quantidade}">0</td>
+            <td>
+                <a class="btn-alterar" th:href="@{/produto/alterar/{id}(id=${produto.id})}">Alterar</a>
+                <a class="btn-excluir" th:href="@{/produto/excluir/{id}(id=${produto.id})}"
+                   onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(produtos)}">
+            <td colspan="5" class="vazio">Nenhum produto cadastrado</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

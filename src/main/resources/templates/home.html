@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Aroma & Sabor - Home</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f5f0eb; min-height: 100vh; }
+        header { background: #3e2723; color: #fff; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
+        header h1 { font-size: 22px; }
+        nav { display: flex; gap: 20px; }
+        nav a { color: #d7ccc8; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #fff; }
+        main { max-width: 900px; margin: 60px auto; padding: 0 20px; text-align: center; }
+        .boas-vindas { margin-bottom: 40px; }
+        .boas-vindas h2 { font-size: 28px; color: #3e2723; margin-bottom: 8px; }
+        .boas-vindas p { color: #8d6e63; font-size: 16px; }
+        .cards { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .card { background: #fff; border-radius: 12px; padding: 32px; width: 260px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-4px); }
+        .card h3 { color: #3e2723; margin-bottom: 8px; font-size: 18px; }
+        .card p { color: #8d6e63; margin-bottom: 20px; font-size: 14px; }
+        .card a { display: inline-block; padding: 10px 24px; background: #6f4e37; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.3s; }
+        .card a:hover { background: #4e342e; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Café Aroma & Sabor</h1>
+    <div style="display:flex;align-items:center;gap:20px;">
+        <span style="color:#d7ccc8;font-size:14px;">
+            <span sec:authentication="name">usuário</span>
+        </span>
+        <nav style="display:flex;gap:20px;">
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/produto}">Produtos</a>
+            <a th:href="@{/estoque}">Estoque</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="background:none;color:#d7ccc8;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;">Sair</button>
+            </form>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="boas-vindas">
+        <h2>Bem-vindo ao Sistema</h2>
+        <p>Gerencie produtos e movimentações de estoque</p>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <h3>Produtos</h3>
+            <p>Cadastre e gerencie seus produtos</p>
+            <a th:href="@{/produto}">Acessar</a>
+        </div>
+        <div class="card">
+            <h3>Estoque</h3>
+            <p>Controle as movimentações do estoque</p>
+            <a th:href="@{/estoque}">Acessar</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
